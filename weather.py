@@ -17,7 +17,7 @@ def get_weather_info(api_key, city):
         temperature = data["main"].get("temp")
         humidity = data["main"].get("humidity")
         description = data["weather"][0].get("description")
-        return temperature, humidity, description
-    else:
-        return None
+        if temperature is not None and humidity is not None and description is not None:
+            return temperature, humidity, description
+    return None
 
