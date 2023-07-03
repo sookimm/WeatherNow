@@ -1,22 +1,15 @@
-import weather
-import display
-from flask import Flask, render_template, request
+from weather import get_weather_info
+from display import display_weather
 
-app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-@app.route("/", methods=["POST"])
-def get_weather():
-    city = request.form["city"]
+def main():
     api_key = "0ddf701347267e3e36de5e566221d650"
-
-    weather_data = weather.get_weather_data(api_key, city)
-    display.display_weather(weather_data)
-
-    return render_template("index.html", weather=weather_data)
+    city = input("Enter city name: ")
+    weather_info = get_weather_info(api_key, city)
+    if weather_info:
+        temperature, humidity, description = weather_info
+        display_weather(temperature, humidity, description)
+    else:
+        print("City not found.")
 
 if __name__ == "__main__":
-    app.run()
+    main()
